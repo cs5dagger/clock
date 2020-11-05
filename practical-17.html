@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/practical-16.css">
+</head>
+<body>
+    <div class="container">
+            <div class="content">
+            <h1 id="currentTime">00:00:00</h1>
+            <h3 id="wish">Good morning</h3> 
+            <input type="text" id="saveName" placeholder="[Enter Name]">
+            <h3 id="date">04/11/20</h3>
+        </div>
+    </div>
+
+    <script>
+        function MyClock(){
+            var today = new Date();
+            var hours = today.getHours();
+            var minutes = today.getMinutes();
+            var seconds = today.getSeconds();
+            var todayDate = today.getDate();
+            var todayMonth = today.getMonth();
+            var todayYear = today.getFullYear();
+            todayMonth = todayMonth + 1;
+            var salutation = "Good Morning";
+            var body = document.getElementsByTagName("body")[0];
+
+            var morning = "url(https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80)";
+            var afternoon = "url(https://images.unsplash.com/photo-1586804297194-37377f8e4875?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1120&q=80)";
+            var evening = "url(https://images.unsplash.com/photo-1472120435266-53107fd0c44a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80)";
+            var night = "url(https://images.unsplash.com/photo-1488866022504-f2584929ca5f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1043&q=80)";
+
+            if(seconds < 10){
+                seconds = "0" + seconds;
+            }
+            if(minutes < 10){
+                minutes = "0" + minutes;
+            }
+            if(hours < 12 ){
+                salutation = "Good Morning";
+                body.style.backgroundImage = morning;
+            }
+            if(hours >= 12 && hours < 16){
+                salutation = "Good Afternoon";
+                body.style.backgroundImage = afternoon;
+            }
+            if(hours >= 16 && hours < 21){
+                salutation = "Good Evening";
+                body.style.backgroundImage = evening;
+            }
+            if(hours >= 21 && hours < 24){
+                salutation = "Good Night";
+                body.style.backgroundImage = night;
+            }
+            if(hours >= 12){
+                hours = Math.abs(12 - hours);
+            }
+            if(hours < 10){
+                hours = "0" + hours;
+            }
+            if(todayDate < 10){
+                todayDate = "0" + todayDate;
+            }
+            if(todayMonth < 10){
+                todayMonth = "0" + todayMonth;
+            }
+            document.getElementById("currentTime").innerHTML = 
+            hours + ":" + minutes + ":" + seconds;
+            document.getElementById("wish").innerHTML = salutation;
+            document.getElementById("date").innerHTML = 
+            todayDate + "/" + todayMonth + "/" + todayYear;
+        }
+        setInterval(MyClock,100);
+
+        // STORING DATA
+        document.addEventListener('keypress', function(e){
+            if(e.key === 'Enter'){
+                var inputName = document.getElementById("saveName").value;
+                console.log(inputName);
+                localStorage.setItem("name",inputName);
+            }
+        });
+
+        // RETRIEVING DATA
+        var retreiveName = localStorage.getItem("name");
+        document.getElementById("saveName").value = retreiveName;
+    </script>
+</body>
+</html>
